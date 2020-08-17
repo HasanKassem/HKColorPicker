@@ -41,10 +41,17 @@ open class HKColorPickerView: UIControl{
     }
     ///return selected color
     public var selectedColor: UIColor?{
-        return current == -1 ? nil : colors[current]
+        return selectedColorIndex == nil ? nil : colors[selectedColorIndex!]
     }
-    //selected color index
-    private var current = -1
+    ///selected color index
+    public var selectedColorIndex: Int?{
+        didSet{
+            //update buttons states
+            self.subviews.forEach({ if let colorButton = $0 as? HKColorButton {colorButton.isOn = colorButton.tag == selectedColorIndex} })
+            //send actions
+            sendActions(for: .valueChanged)
+        }
+    }
     
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -81,7 +88,7 @@ open class HKColorPickerView: UIControl{
         //update buttons states
         self.subviews.forEach({ if let colorButton = $0 as? HKColorButton {colorButton.isOn = colorButton.tag == sender.tag} })
         //update selected color index
-        current = sender.tag
+        selectedColorIndex = sender.tag
         //send actions
         sendActions(for: .valueChanged)
     }

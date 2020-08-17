@@ -43,6 +43,9 @@ Note that colors can be only set via code, and number of buttons will change acc
 	
 	///return selected color
 	public var selectedColor: UIColor?
+	
+	///selected color index
+	public var selectedColorIndex: Int?
 ```
 
 
